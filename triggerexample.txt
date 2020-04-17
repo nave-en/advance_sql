@@ -1,0 +1,40 @@
+1.after insert on
+create trigger shipper
+after insert on orders for each row
+begin
+update shippers
+set order_placed=order_placed+1 where shipperID=new.shipperID;
+end;
+2.after delete
+create trigger shipper_reduce
+after delete on orders
+for each row
+begin
+update shippers
+set order_placed=orderplaced-1 where shipperID=ShipperID;
+end;
+3.before delete
+create trigger shipper_reduce
+before delete on orders
+for each row
+begin
+insert into order_delivered values(old.orderid,old.customerid);
+end;
+create table order_delivered(orderid int,
+customerid int,status varchar(3)
+primary key(orderid));
+4.after update on
+create trigger s
+after update on order_delivered for each row
+begin
+update customers
+set bought=new.status where CustomerID=new.CustomerID;
+end;
+5.before update
+Alter table products add column quantity int not null constraint constraint_name default 0;
+create trigger quantity
+before update on OrderDetails
+for each row 
+begin
+   update products set quantity=quantity-new.quantity where productid=new.productid;
+end;

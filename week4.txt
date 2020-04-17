@@ -1,0 +1,38 @@
+1.SELECT OrderID,Group_CONCAT(ProductName) from OrderDetails inner join Products where OrderDetails.ProductID=Products.ProductID group by(OrderDetails.OrderID);
+
+2.SELECT CustomerID,PostalCode,length(PostalCode) as postal_length,
+CASE WHEN length(PostalCode) > 5 THEN 'length is greater than 5'
+WHEN length(PostalCode) = 5 THEN 'lentgh is 5'
+ELSE 'length is smaller than 5'
+END AS PostalCode_length
+FROM Customers;
+
+3.CREATE VIEW [Germany_Customers] AS
+SELECT CustomerName, ContactName
+FROM Customers
+WHERE Country = 'Germany';
+
+4.Create View  [shippement] as Select Orders.CustomerID,Orders.ShipperID,Shippers.ShipperName,count(Orders.CustomerID)as Numberoforders from Orders Inner Join  Shippers where Orders.ShipperID=Shippers.ShipperID group By(ShipperName);
+
+
+ 6.create trigger quality_update After insert on OrderDetails for each row
+BEGIN
+update Products
+SET Quantity=Quantity-new.Quantity where ProductID=new.ProductID;
+END;
+alter table products add column quantity int not null constraint constraint_name default 0;
+insert into OrderDetails values(519,10444,13,1);
+
+
+ 7.CREATE TRIGGER order_update
+AFTER INSERT
+ON orders FOR EACH ROW
+BEGIN
+ declare A int default 0;
+    select orderdetailsid into A from orderdetails order by orderid desc limit 1;
+    insert into orderdetails (orderdetailsid,NEW.orderid,productid,quantity) values (A+1,111,111,111);
+END
+
+ 
+ 10.CREATE INDEX stuent_details ON student(name ASC);
+   SELECT Rollno,Name FROM Student where name='robert';
